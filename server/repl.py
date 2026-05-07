@@ -269,7 +269,10 @@ class Repl:
         input: Command = {"cmd": snippet.code}
 
         if self.use_count != 0 and not is_header:  # remove is_header
-            input["env"] = 0
+            header_env = 0
+            if self.header_cmd_response and self.header_cmd_response.response:
+                header_env = self.header_cmd_response.response.get("env", header_env)
+            input["env"] = header_env
             input["gc"] = True
 
         if infotree:
